@@ -47,3 +47,24 @@ flowchart TD
     
     E -->|Выход| Y[Завершение]
 ```
+
+Диаграмма состояния:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Alive
+
+    state Alive {
+        [*] --> Idle
+        Idle --> Attacking : Attack()
+        Attacking --> Idle
+
+        Idle --> TakingDamage : ReceiveDamage(dmg)
+        TakingDamage --> Idle : HP > 0
+        TakingDamage --> Dead : HP <= 0
+    }
+
+    state Dead {
+        [*] --> Dead
+    }
+```
