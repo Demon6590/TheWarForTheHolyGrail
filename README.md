@@ -9,7 +9,7 @@
 
 Для начала нужно сделать диаграммы для понимания что и как будет происходить в игре
 
-Диаграмма действий Играков:
+Диаграмма действий Игроков:
 
 ```mermaid
 flowchart TD
@@ -33,6 +33,48 @@ flowchart TD
     F -->|Да| G
     F -->|Нет| H
     G --> H
+```
+Диаграмма действий Героев:
+
+```mermaid
+flowchart TD
+    Start["Начало хода игрока"]
+
+    ChooseAction{"Выбрать действие?"}
+    Attack["Атаковать соперника"]
+
+    CalcDamage["Рассчитать урон"]
+    ApplyDamage["Нанести урон сопернику"]
+
+    CheckEnemyHealth{"Health соперника > 0?"}
+    EnemyTurn["Ход сопернику"]
+
+    CheckPlayerAlive{"Health героя <= 0?"}
+    DeathScreen["Герой погиб"]
+    ContinueBattle["Продолжить битву"]
+
+    EndBattle["Конец битвы"]
+
+    Start --> ChooseAction
+    ChooseAction -->|"Атака"| Attack
+  
+
+    Attack --> CalcDamage
+    CalcDamage --> ApplyDamage
+    ApplyDamage --> CheckEnemyHealth
+
+    CheckEnemyHealth -->|"Да"| EnemyTurn
+    CheckEnemyHealth -->|"Нет"| EndBattle
+
+    EnemyTurn -->|"Соперник атакует"| CalcPlayerDamage["Рассчитать урон по герою"]
+    CalcPlayerDamage --> ApplyPlayerDamage["Нанести урон герою"]
+    ApplyPlayerDamage --> CheckPlayerAlive
+
+    CheckPlayerAlive -->|"Да"| ContinueBattle
+    CheckPlayerAlive -->|"Нет"| DeathScreen
+
+    ContinueBattle --> Start
+    DeathScreen --> EndBattle
 ```
 
 Диаграмма состояния Героя:
@@ -59,43 +101,3 @@ stateDiagram-v2
     Живой --> Мертвый
 ```
 
-```mermaid
-flowchart TD
-    Start["Начало хода игрока"]
-
-    ChooseAction{"Выбрать действие?"}
-    Attack["Атаковать соперника"]
-
-    CalcDamage["Рассчитать урон"]
-    ApplyDamage["Нанести урон сопернику"]
-
-    CheckEnemyHealth{"Health соперника > 0?"}
-    EnemyTurn["Ход сопернику"]
-
-    CheckPlayerAlive{"Игрок жив?"}
-    DeathScreen["Игрок погиб → конец битвы"]
-    ContinueBattle["Продолжить битву"]
-
-    EndBattle["Конец битвы"]
-
-    Start --> ChooseAction
-    ChooseAction -->|"Атака"| Attack
-  
-
-    Attack --> CalcDamage
-    CalcDamage --> ApplyDamage
-    ApplyDamage --> CheckEnemyHealth
-
-    CheckEnemyHealth -->|"Да"| EnemyTurn
-    CheckEnemyHealth -->|"Нет"| EndBattle
-
-    EnemyTurn -->|"Соперник атакует"| CalcPlayerDamage["Рассчитать урон по герою"]
-    CalcPlayerDamage --> ApplyPlayerDamage["Нанести урон герою"]
-    ApplyPlayerDamage --> CheckPlayerAlive
-
-    CheckPlayerAlive -->|"Да"| ContinueBattle
-    CheckPlayerAlive -->|"Нет"| DeathScreen
-
-    ContinueBattle --> Start
-    DeathScreen --> EndBattle
-```
