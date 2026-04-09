@@ -80,8 +80,7 @@ flowchart TD
 
     Start --> ChooseAction
     ChooseAction -->|"Атака"| Attack
-    ChooseAction -->|"Защита"| Defend
-    ChooseAction -->|"Умение"| UseAbility
+  
 
     Attack --> CalcDamage
     CalcDamage --> ApplyDamage
